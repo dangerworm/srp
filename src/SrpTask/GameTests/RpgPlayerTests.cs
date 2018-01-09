@@ -129,7 +129,6 @@ namespace SrpTask.GameTests
         {
             // Arrange
             Engine.Setup(x => x.PlaySpecialEffect("green_swirly")).Verifiable();
-            Engine.Setup(x => x.GetSuperHealthPotionThreshold()).Returns(500);
             
             var xPotion = ItemBuilder.Build.WithHeal(501).AnItem();
 

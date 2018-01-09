@@ -49,11 +49,6 @@ namespace SrpTask.Game
                 {
                     CurrentHealth = MaxHealth;
                 }
-
-                if (item.Heal > _gameEngine.GetSuperHealthPotionThreshold())
-                {
-                    _gameEngine.PlaySpecialEffect("green_swirly");
-                }
             }
 
             if (item.IsConsumable)
@@ -73,19 +68,17 @@ namespace SrpTask.Game
             if (item.Heals)
             {
                 UseItem(item);
-                return true;
+            }
+            else
+            {
+               Inventory.Add(item);
             }
 
-            if (item.IsUnique && item.IsRare)
+            var specialEffect = item.GetSpecialEffectOnPickUp();
+            if (!string.IsNullOrWhiteSpace(specialEffect))
             {
-                _gameEngine.PlaySpecialEffect("blue_swirly");
+                _gameEngine.PlaySpecialEffect(specialEffect);
             }
-            else if (item.IsRare)
-            {
-                _gameEngine.PlaySpecialEffect("cool_swirly_particles");
-            }
-
-            Inventory.Add(item);
 
             CalculateStats();
 

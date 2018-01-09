@@ -2,6 +2,8 @@
 {
     public class Item
     {
+        public const int SuperHealthPotionThreshold = 500;
+
         /// <summary>
         /// Item's unique Id
         /// </summary>
@@ -69,6 +71,33 @@
             IsUnique = isUnique;
             IsRare = isRare;
             IsConsumable = isConsumable;
+        }
+
+        /// <summary>
+        /// Accessor for any special effects played when the item is picked up
+        /// </summary>
+        /// <returns>
+        /// A string containing the name of the special effect
+        /// </returns>
+        public string GetSpecialEffectOnPickUp()
+        {
+            // Healing first, as these get used straight away
+            if (Heal > SuperHealthPotionThreshold)
+            {
+                return "green_swirly";
+            }
+
+            if (IsUnique && IsRare)
+            {
+                return "blue_swirly";
+            }
+
+            if (IsRare)
+            {
+                return "cool_swirly_particles";
+            }
+
+            return null;
         }
     }
 }
