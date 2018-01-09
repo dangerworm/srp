@@ -289,6 +289,7 @@ namespace SrpTask.GameTests
                 .Build
                 .IsConsumable(true)
                 .AnItem();
+
             Player.Inventory.Should().BeEmpty();
 
             // Act

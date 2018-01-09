@@ -42,6 +42,21 @@ namespace SrpTask.Game
                 }
             }
 
+            if (item.Heals)
+            {
+                CurrentHealth += item.Heal;
+
+                if (CurrentHealth > MaxHealth)
+                {
+                    CurrentHealth = MaxHealth;
+                }
+
+                if (item.Heal > SuperHealthPotionThreshold)
+                {
+                    _gameEngine.PlaySpecialEffect("green_swirly");
+                }
+            }
+
             if (item.IsConsumable)
             {
                 Inventory.Remove(item);
@@ -58,18 +73,7 @@ namespace SrpTask.Game
             // Don't pick up items that give health, just consume them.
             if (item.Heals)
             {
-                CurrentHealth += item.Heal;
-
-                if (CurrentHealth > MaxHealth)
-                {
-                    CurrentHealth = MaxHealth;
-                }
-
-                if (item.Heal > SuperHealthPotionThreshold)
-                {
-                    _gameEngine.PlaySpecialEffect("green_swirly");
-                }
-
+                UseItem(item);
                 return true;
             }
 
