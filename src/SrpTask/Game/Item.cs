@@ -3,48 +3,48 @@
     public class Item
     {
         /// <summary>
-        /// Items unique Id;
+        /// Item's unique Id
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Items name
+        /// Item's name
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// How much the item heals by.
+        /// How much the item heals by
         /// </summary>
         public int Heal { get; set; }
 
         /// <summary>
-        /// How much armour the player gets when it is equipped.
+        /// How much armour the player gets when it is equipped
         /// </summary>
         public int Armour { get; set; }
 
         /// <summary>
-        /// How much this item weighs in kilograms.
+        /// How much this item weighs in kilograms
         /// </summary>
         public int Weight { get; set; }
 
         /// <summary>
-        /// A unique item can only be picked up once.
+        /// A unique item can only be picked up once
         /// </summary>
-        public bool Unique { get; set; }
+        public bool IsUnique { get; set; }
 
         /// <summary>
         /// Rare items are posh and shiny
         /// </summary>
-        public readonly bool Rare;
+        public readonly bool IsRare;
 
-        public Item(int id, string name, int heal, int armour, int weight, bool unique, bool rare)
+        public Item(int id, string name, int heal, int armour, int weight, bool isUnique, bool isRare)
         {
-            Rare = rare;
+            IsRare = isRare;
             Name = name;
             Heal = heal;
             Armour = armour;
             Weight = weight;
-            Unique = unique;
+            IsUnique = isUnique;
             Id = id;
         }
     }

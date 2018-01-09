@@ -5,17 +5,16 @@ namespace SrpTask.Game
 {
     public class RpgPlayer
     {
-        public const int MaximumCarryingCapacity = 1000;
-
         private readonly IGameEngine _gameEngine;
 
-        public int Health { get; set; }
+        public const int MaximumCarryingCapacity = 1000;
 
+        public List<Item> Inventory;
+
+        public int CurrentHealth { get; set; }
         public int MaxHealth { get; set; }
 
         public int Armour { get; private set; }
-
-        public List<Item> Inventory;
 
         /// <summary>
         /// How much the player can carry in kilograms
@@ -48,16 +47,16 @@ namespace SrpTask.Game
             if (weight + item.Weight > CarryingCapacity)
                 return false;
 
-            if (item.Unique && CheckIfItemExistsInInventory(item))
+            if (item.IsUnique && CheckIfItemExistsInInventory(item))
                 return false;
 
             // Don't pick up items that give health, just consume them.
             if (item.Heal > 0)
             {
-                Health += item.Heal;
+                CurrentHealth += item.Heal;
 
-                if (Health > MaxHealth)
-                    Health = MaxHealth;
+                if (CurrentHealth > MaxHealth)
+                    CurrentHealth = MaxHealth;
 
                 if (item.Heal > 500)
                 {
@@ -67,7 +66,7 @@ namespace SrpTask.Game
                 return true;
             }
 
-            if (item.Rare)
+            if (item.IsRare)
                 _gameEngine.PlaySpecialEffect("cool_swirly_particles");
 
             Inventory.Add(item);
@@ -101,7 +100,7 @@ namespace SrpTask.Game
             }
 
             var damageToDeal = damage - Armour;
-            Health -= damageToDeal;
+            CurrentHealth -= damageToDeal;
             
             _gameEngine.PlaySpecialEffect("lots_of_gore");
         }

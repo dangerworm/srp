@@ -40,7 +40,7 @@ namespace SrpTask.GameTests
         {
             // Arrange
             Player.MaxHealth = 100;
-            Player.Health = 10;
+            Player.CurrentHealth = 10;
 
             var healthPotion = 
                 ItemBuilder
@@ -53,7 +53,7 @@ namespace SrpTask.GameTests
 
             // Assert
             Player.Inventory.Should().BeEmpty();
-            Player.Health.Should().Be(100);
+            Player.CurrentHealth.Should().Be(100);
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace SrpTask.GameTests
         {
             // Arrange
             Player.MaxHealth = 50;
-            Player.Health = 10;
+            Player.CurrentHealth = 10;
 
             var healthPotion =
                 ItemBuilder
@@ -74,7 +74,7 @@ namespace SrpTask.GameTests
 
             // Assert
             Player.Inventory.Should().BeEmpty();
-            Player.Health.Should().Be(50);
+            Player.CurrentHealth.Should().Be(50);
         }
 
         [Test]
@@ -159,13 +159,13 @@ namespace SrpTask.GameTests
         {
             // Arrange
             Engine.Setup(x => x.PlaySpecialEffect("lots_of_gore")).Verifiable();
-            Player.Health = 200;
+            Player.CurrentHealth = 200;
 
             // Act
             Player.TakeDamage(100);
 
             // Assert
-            Player.Health.Should().Be(100);
+            Player.CurrentHealth.Should().Be(100);
             Engine.VerifyAll();
             
         }
@@ -176,13 +176,13 @@ namespace SrpTask.GameTests
             // Arrange
             Engine.Setup(x => x.PlaySpecialEffect("lots_of_gore")).Verifiable();
             Player.PickUpItem(ItemBuilder.Build.WithArmour(50).AnItem());
-            Player.Health = 200;
+            Player.CurrentHealth = 200;
 
             // Act
             Player.TakeDamage(100);
 
             // Assert
-            Player.Health.Should().Be(150);
+            Player.CurrentHealth.Should().Be(150);
         }
 
         [Test]
@@ -191,13 +191,13 @@ namespace SrpTask.GameTests
             // Arrange
             Engine.Setup(x => x.PlaySpecialEffect("parry")).Verifiable();
             Player.PickUpItem(ItemBuilder.Build.WithArmour(2000).AnItem());
-            Player.Health = 200;
+            Player.CurrentHealth = 200;
 
             // Act
             Player.TakeDamage(100);
 
             // Assert
-            Player.Health.Should().Be(200);
+            Player.CurrentHealth.Should().Be(200);
             Engine.VerifyAll();
         }
 
