@@ -17,6 +17,8 @@
         /// </summary>
         public int Heal { get; set; }
 
+        public bool Heals => Heal > 0;
+
         /// <summary>
         /// How much armour the player gets when it is equipped
         /// </summary>

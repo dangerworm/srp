@@ -56,12 +56,14 @@ namespace SrpTask.Game
             }
 
             // Don't pick up items that give health, just consume them.
-            if (item.Heal > 0)
+            if (item.Heals)
             {
                 CurrentHealth += item.Heal;
 
                 if (CurrentHealth > MaxHealth)
+                {
                     CurrentHealth = MaxHealth;
+                }
 
                 if (item.Heal > SuperHealthPotionThreshold)
                 {
