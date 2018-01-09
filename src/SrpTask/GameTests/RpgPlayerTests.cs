@@ -220,6 +220,19 @@ namespace SrpTask.GameTests
         }
 
         [Test]
+        public void TakeDamage_CarryingUnderHalfCapacity_DamageTakenReducedByQuarter()
+        {
+            // Arrange
+            Player.CurrentHealth = 200;
+
+            // Act
+            Player.TakeDamage(100);
+
+            // Assert
+            Player.CurrentHealth.Should().Be(125);
+        }
+
+        [Test]
         public void UseItem_StinkBomb_AllEnemiesNearThePlayerAreDamaged()
         {
             // Arrange
