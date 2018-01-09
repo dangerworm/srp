@@ -174,7 +174,7 @@ namespace SrpTask.GameTests
         }
 
         [Test]
-        public void TakeDamage_WithNoArmour_HealthIsReducedAndParticleEffectIsShown()
+        public void TakeDamage_AnySituation_ParticleEffectIsShown()
         {
             // Arrange
             Engine.Setup(x => x.PlaySpecialEffect("lots_of_gore")).Verifiable();
@@ -184,15 +184,26 @@ namespace SrpTask.GameTests
             Player.TakeDamage(100);
 
             // Assert
-            Player.CurrentHealth.Should().BeLessThan(200);
             Engine.VerifyAll();
         }
 
         [Test]
-        public void TakeDamage_With50Armour_DamageIsReducedBy50AndParticleEffectIsShown()
+        public void TakeDamage_WithNoArmour_HealthIsReduced()
         {
             // Arrange
-            Engine.Setup(x => x.PlaySpecialEffect("lots_of_gore")).Verifiable();
+            Player.CurrentHealth = 200;
+
+            // Act
+            Player.TakeDamage(100);
+
+            // Assert
+            Player.CurrentHealth.Should().BeLessThan(200);
+        }
+
+        [Test]
+        public void TakeDamage_With50Armour_DamageIsReducedBy38()
+        {
+            // Arrange
             Player.PickUpItem(ItemBuilder.Build.WithArmour(50).AnItem());
             Player.CurrentHealth = 200;
 
