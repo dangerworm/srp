@@ -9,7 +9,6 @@ namespace SrpTask.Game
         private readonly IGameEngine _gameEngine;
 
         public const int MaximumCarryingCapacity = 1000;
-        private const int SuperHealthPotionThreshold = 500;
         public List<Item> Inventory;
 
         public int CurrentHealth { get; set; }
@@ -51,7 +50,7 @@ namespace SrpTask.Game
                     CurrentHealth = MaxHealth;
                 }
 
-                if (item.Heal > SuperHealthPotionThreshold)
+                if (item.Heal > _gameEngine.GetSuperHealthPotionThreshold())
                 {
                     _gameEngine.PlaySpecialEffect("green_swirly");
                 }
