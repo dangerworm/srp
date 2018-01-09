@@ -35,7 +35,7 @@ namespace SrpTask.GameTests
         }
 
         [Test]
-        public void PickUpItem_ThatGivesHealth_HealthIsIncreasedAndItemIsNotAddedToInventory()
+        public void PickUpItem_ThatGivesHealth_HealthIsIncreased()
         {
             // Arrange
             Player.MaxHealth = 100;
@@ -50,8 +50,23 @@ namespace SrpTask.GameTests
             Player.PickUpItem(healthPotion);
 
             // Assert
-            Player.Inventory.Should().BeEmpty();
             Player.CurrentHealth.Should().BeGreaterThan(10);
+        }
+
+        [Test]
+        public void PickUpItem_ThatGivesHealth_ItemIsNotAddedToInventory()
+        {
+            // Arrange
+            var healthPotion = ItemBuilder
+                .Build
+                .WithHeal(100)
+                .AnItem();
+
+            // Act
+            Player.PickUpItem(healthPotion);
+
+            // Assert
+            Player.Inventory.Should().BeEmpty();
         }
 
         [Test]
