@@ -41,6 +41,11 @@ namespace SrpTask.Game
                     enemy.TakeDamage(100);
                 }
             }
+
+            if (item.IsConsumable)
+            {
+                Inventory.Remove(item);
+            }
         }
 
         public bool PickUpItem(Item item)
