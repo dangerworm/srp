@@ -277,5 +277,25 @@ namespace SrpTask.GameTests
             // Assert
             enemy.Verify(x => x.TakeDamage(100));
         }
+
+        [Test]
+        public void UseItem_ItemIsConsumable_ItemIsRemovedFromInventory()
+        {
+            // Arrange
+            var item = ItemBuilder
+                .Build
+                .IsConsumable(true)
+                .AnItem();
+            Player.Inventory.Should().BeEmpty();
+
+            // Act
+            Player.PickUpItem(item);
+            Player.Inventory.Should().NotBeEmpty();
+
+            Player.UseItem(item);
+
+            // Assert
+            Player.Inventory.Should().BeEmpty();
+        }
     }
 }

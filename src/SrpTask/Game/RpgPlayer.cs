@@ -46,7 +46,9 @@ namespace SrpTask.Game
         public bool PickUpItem(Item item)
         {
             if (!CanCarry(item) || !CanPickUp(item))
+            {
                 return false;
+            }
 
             // Don't pick up items that give health, just consume them.
             if (item.Heal > 0)

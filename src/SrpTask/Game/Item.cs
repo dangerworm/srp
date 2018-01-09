@@ -37,15 +37,22 @@
         /// </summary>
         public readonly bool IsRare;
 
-        public Item(int id, string name, int heal, int armour, int weight, bool isUnique, bool isRare)
+        /// <summary>
+        /// Consumable items disappear from inventory when used
+        /// </summary>
+        public readonly bool IsConsumable;
+
+        public Item(int id, string name, int heal, int armour, int weight, 
+            bool isUnique, bool isRare, bool isConsumable)
         {
-            IsRare = isRare;
+            Id = id;
             Name = name;
             Heal = heal;
             Armour = armour;
             Weight = weight;
             IsUnique = isUnique;
-            Id = id;
+            IsRare = isRare;
+            IsConsumable = isConsumable;
         }
     }
 }
