@@ -8,7 +8,7 @@ namespace SrpTask.Game
         private readonly IGameEngine _gameEngine;
 
         public const int MaximumCarryingCapacity = 1000;
-
+        private const int SuperHealthPotionThreshold = 500;
         public List<Item> Inventory;
 
         public int CurrentHealth { get; set; }
@@ -24,13 +24,14 @@ namespace SrpTask.Game
         public RpgPlayer(IGameEngine gameEngine)
         {
             _gameEngine = gameEngine;
+
             Inventory = new List<Item>();
             CarryingCapacity = MaximumCarryingCapacity;
         }
 
         public void UseItem(Item item)
         {
-            if (item.Name == "Stink Bomb")
+            if (item.Name.Equals("Stink Bomb"))
             {
                 var enemies = _gameEngine.GetEnemiesNear(this);
 
@@ -43,11 +44,7 @@ namespace SrpTask.Game
 
         public bool PickUpItem(Item item)
         {
-            var weight = CalculateInventoryWeight();
-            if (weight + item.Weight > CarryingCapacity)
-                return false;
-
-            if (item.IsUnique && CheckIfItemExistsInInventory(item))
+            if (!CanCarry(item) || !CanPickUp(item))
                 return false;
 
             // Don't pick up items that give health, just consume them.
@@ -58,7 +55,7 @@ namespace SrpTask.Game
                 if (CurrentHealth > MaxHealth)
                     CurrentHealth = MaxHealth;
 
-                if (item.Heal > 500)
+                if (item.Heal > SuperHealthPotionThreshold)
                 {
                     _gameEngine.PlaySpecialEffect("green_swirly");
                 }
@@ -76,6 +73,31 @@ namespace SrpTask.Game
             return true;
         }
 
+        public void TakeDamage(int damage)
+        {
+            if (damage < Armour)
+            {
+                _gameEngine.PlaySpecialEffect("parry");
+                return;
+            }
+
+            var damageToDeal = damage - Armour;
+            CurrentHealth -= damageToDeal;
+            
+            _gameEngine.PlaySpecialEffect("lots_of_gore");
+        }
+
+        private bool CanPickUp(Item item)
+        {
+            return !item.IsUnique || !CheckIfItemExistsInInventory(item);
+        }
+
+        private bool CanCarry(Item item)
+        {
+            var weight = CalculateInventoryWeight();
+            return weight + item.Weight <= CarryingCapacity;
+        }
+
         private void CalculateStats()
         {
             Armour = Inventory.Sum(x => x.Armour);
@@ -89,20 +111,6 @@ namespace SrpTask.Game
         private int CalculateInventoryWeight()
         {
             return Inventory.Sum(x => x.Weight);
-        }
-
-        public void TakeDamage(int damage)
-        {
-            if (damage < Armour)
-            {
-                _gameEngine.PlaySpecialEffect("parry");
-                return;
-            }
-
-            var damageToDeal = damage - Armour;
-            CurrentHealth -= damageToDeal;
-            
-            _gameEngine.PlaySpecialEffect("lots_of_gore");
         }
     }
 }
