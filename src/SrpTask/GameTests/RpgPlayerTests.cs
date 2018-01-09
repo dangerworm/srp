@@ -155,6 +155,26 @@ namespace SrpTask.GameTests
         }
 
         [Test]
+        public void PickUpItem_ThatIsRareAndUnique_AnExtraBlueSwirlyEffectOccurs()
+        {
+            // Arrange
+            Engine.Setup(x => x.PlaySpecialEffect("blue_swirly")).Verifiable();
+
+            var rareUniqueItem = ItemBuilder
+                .Build
+                .IsRare(true)
+                .IsUnique(true)
+                .AnItem();
+
+            // Act
+            var result = Player.PickUpItem(rareUniqueItem);
+
+            // Assert
+            Engine.VerifyAll();
+        }
+
+
+        [Test]
         public void TakeDamage_WithNoArmour_HealthIsReducedAndParticleEffectIsShown()
         {
             // Arrange
@@ -167,7 +187,6 @@ namespace SrpTask.GameTests
             // Assert
             Player.CurrentHealth.Should().Be(100);
             Engine.VerifyAll();
-            
         }
 
         [Test]
