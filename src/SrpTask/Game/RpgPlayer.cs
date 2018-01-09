@@ -75,10 +75,7 @@ namespace SrpTask.Game
             }
 
             var specialEffect = item.GetSpecialEffectOnPickUp();
-            if (!string.IsNullOrWhiteSpace(specialEffect))
-            {
-                _gameEngine.PlaySpecialEffect(specialEffect);
-            }
+            PlaySpecialEffect(specialEffect);
 
             CalculateStats();
 
@@ -87,31 +84,17 @@ namespace SrpTask.Game
 
         public void TakeDamage(int damage)
         {
-            if (damage <= Armour)
-            {
-                _gameEngine.PlaySpecialEffect("parry");
-                return;
-            }
+            var damageToDeal = GetDamageToDeal(damage);
 
-            var damageToDeal = damage - Armour;
-
-            var weight = CalculateInventoryWeight();
-            if (weight < MaximumCarryingCapacity / 2)
-            {
-                // Un-encumbered players can parry more successfully.
-                // Reduce damage dealt by 25%.
-                damageToDeal = (int)Math.Round(damageToDeal * 0.75);
-            }
+            var specialEffect = GetSpecialEffectOnDamage(damageToDeal);
+            PlaySpecialEffect(specialEffect);
 
             CurrentHealth -= damageToDeal;
-            
-            _gameEngine.PlaySpecialEffect("lots_of_gore");
         }
 
         private bool CanCarry(Item item)
         {
-            var weight = CalculateInventoryWeight();
-            return weight + item.Weight <= CarryingCapacity;
+            return GetInventoryWeight() + item.Weight <= CarryingCapacity;
         }
 
         private bool CanPickUp(Item item)
@@ -124,14 +107,48 @@ namespace SrpTask.Game
             return Inventory.Any(x => x.Id == item.Id);
         }
 
-        private int CalculateInventoryWeight()
+        private int GetDamageToDeal(int damage)
+        {
+            if (damage < Armour)
+            {
+                return 0;
+            }
+
+            var damageToDeal = damage - Armour;
+
+            if (GetInventoryWeight() < MaximumCarryingCapacity / 2)
+            {
+                // Un-encumbered players can parry more successfully.
+                // Reduce damage dealt by 25%.
+                damageToDeal = (int)Math.Round(damageToDeal * 0.75);
+            }
+
+            return damageToDeal;
+        }
+
+        private int GetInventoryWeight()
         {
             return Inventory.Sum(x => x.Weight);
+        }
+
+        public string GetSpecialEffectOnDamage(int damage)
+        {
+            return damage == 0 ? "parry" : "lots_of_gore";
         }
 
         private void CalculateStats()
         {
             Armour = Inventory.Sum(x => x.Armour);
+        }
+
+        private void PlaySpecialEffect(string specialEffect)
+        {
+            // This check should be moved to whichever class implements
+            // the IGameEngine interface
+            if (!string.IsNullOrWhiteSpace(specialEffect))
+            {
+                _gameEngine.PlaySpecialEffect(specialEffect);
+            }
         }
     }
 }
