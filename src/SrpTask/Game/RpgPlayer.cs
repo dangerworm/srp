@@ -63,8 +63,14 @@ namespace SrpTask.Game
                 return true;
             }
 
-            if (item.IsRare)
+            if (item.IsUnique && item.IsRare)
+            {
+                _gameEngine.PlaySpecialEffect("blue_swirly");
+            }
+            else if (item.IsRare)
+            {
                 _gameEngine.PlaySpecialEffect("cool_swirly_particles");
+            }
 
             Inventory.Add(item);
 

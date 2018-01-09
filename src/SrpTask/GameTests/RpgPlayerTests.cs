@@ -167,12 +167,11 @@ namespace SrpTask.GameTests
                 .AnItem();
 
             // Act
-            var result = Player.PickUpItem(rareUniqueItem);
+            Player.PickUpItem(rareUniqueItem);
 
             // Assert
             Engine.VerifyAll();
         }
-
 
         [Test]
         public void TakeDamage_WithNoArmour_HealthIsReducedAndParticleEffectIsShown()
