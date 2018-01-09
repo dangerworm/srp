@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SrpTask.Game
@@ -88,6 +89,13 @@ namespace SrpTask.Game
             }
 
             var damageToDeal = damage - Armour;
+
+            var weight = CalculateInventoryWeight();
+            if (weight < MaximumCarryingCapacity / 2)
+            {
+                damageToDeal -= (int)Math.Round(damageToDeal * 0.25);
+            }
+
             CurrentHealth -= damageToDeal;
             
             _gameEngine.PlaySpecialEffect("lots_of_gore");
