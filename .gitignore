@@ -284,5 +284,6 @@ __pycache__/
 # BizTalk build output
 *.btp.cs
 *.btm.cs
+*.ncrunchsolution
 *.odx.cs
 *.xsd.cs
