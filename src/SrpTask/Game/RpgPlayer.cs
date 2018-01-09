@@ -93,7 +93,9 @@ namespace SrpTask.Game
             var weight = CalculateInventoryWeight();
             if (weight < MaximumCarryingCapacity / 2)
             {
-                damageToDeal -= (int)Math.Round(damageToDeal * 0.25);
+                // Un-encumbered players can parry more successfully.
+                // Reduce damage dealt by 25%.
+                damageToDeal = (int)Math.Round(damageToDeal * 0.75);
             }
 
             CurrentHealth -= damageToDeal;
