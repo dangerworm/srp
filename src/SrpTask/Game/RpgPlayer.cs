@@ -75,7 +75,7 @@ namespace SrpTask.Game
 
         public void TakeDamage(int damage)
         {
-            if (damage < Armour)
+            if (damage <= Armour)
             {
                 _gameEngine.PlaySpecialEffect("parry");
                 return;
@@ -89,7 +89,7 @@ namespace SrpTask.Game
 
         private bool CanPickUp(Item item)
         {
-            return !item.IsUnique || !CheckIfItemExistsInInventory(item);
+            return !(item.IsUnique && CheckIfItemExistsInInventory(item));
         }
 
         private bool CanCarry(Item item)
