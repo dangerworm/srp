@@ -87,23 +87,18 @@ namespace SrpTask.Game
             _gameEngine.PlaySpecialEffect("lots_of_gore");
         }
 
-        private bool CanPickUp(Item item)
-        {
-            return !(item.IsUnique && CheckIfItemExistsInInventory(item));
-        }
-
         private bool CanCarry(Item item)
         {
             var weight = CalculateInventoryWeight();
             return weight + item.Weight <= CarryingCapacity;
         }
 
-        private void CalculateStats()
+        private bool CanPickUp(Item item)
         {
-            Armour = Inventory.Sum(x => x.Armour);
+            return !(item.IsUnique && ItemExistsInInventory(item));
         }
 
-        private bool CheckIfItemExistsInInventory(Item item)
+        private bool ItemExistsInInventory(Item item)
         {
             return Inventory.Any(x => x.Id == item.Id);
         }
@@ -111,6 +106,11 @@ namespace SrpTask.Game
         private int CalculateInventoryWeight()
         {
             return Inventory.Sum(x => x.Weight);
+        }
+
+        private void CalculateStats()
+        {
+            Armour = Inventory.Sum(x => x.Armour);
         }
     }
 }
