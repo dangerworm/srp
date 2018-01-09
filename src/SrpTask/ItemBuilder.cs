@@ -6,6 +6,7 @@ namespace SrpTask
     {
         private int _id = 10;
         private string _name = "Item";
+        private int _damage = 0;
         private int _heal = 0;
         private int _armour = 0;
         private int _weight = 0;
@@ -17,7 +18,7 @@ namespace SrpTask
 
         public Item AnItem()
         {
-            return new Item(_id, _name, _heal, _armour, _weight, 
+            return new Item(_id, _name, _damage, _heal, _armour, _weight, 
                 _isUnique, _isRare, _isConsumable);
         }
 
@@ -34,6 +35,12 @@ namespace SrpTask
         public ItemBuilder WithName(string name)
         {
             _name = name;
+            return this;
+        }
+
+        public ItemBuilder WithDamage(int damage)
+        {
+            _damage = damage;
             return this;
         }
 

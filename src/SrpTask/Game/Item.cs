@@ -13,10 +13,23 @@
         public string Name { get; set; }
 
         /// <summary>
+        /// How much damage the item deals
+        /// </summary>
+        public int Damage { get; set; }
+
+        /// <summary>
+        /// Whether the item deals damage
+        /// </summary>
+        public bool DealsDamage => Damage > 0;
+
+        /// <summary>
         /// How much the item heals by
         /// </summary>
         public int Heal { get; set; }
 
+        /// <summary>
+        /// Whether the item causes healing
+        /// </summary>
         public bool Heals => Heal > 0;
 
         /// <summary>
@@ -44,11 +57,12 @@
         /// </summary>
         public readonly bool IsConsumable;
 
-        public Item(int id, string name, int heal, int armour, int weight, 
-            bool isUnique, bool isRare, bool isConsumable)
+        public Item(int id, string name, int damage, int heal, int armour, 
+            int weight, bool isUnique, bool isRare, bool isConsumable)
         {
             Id = id;
             Name = name;
+            Damage = damage;
             Heal = heal;
             Armour = armour;
             Weight = weight;

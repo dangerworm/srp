@@ -32,13 +32,13 @@ namespace SrpTask.Game
 
         public void UseItem(Item item)
         {
-            if (item.Name.Equals("Stink Bomb"))
+            if (item.DealsDamage)
             {
                 var enemies = _gameEngine.GetEnemiesNear(this);
 
                 foreach (var enemy in enemies)
                 {
-                    enemy.TakeDamage(100);
+                    enemy.TakeDamage(item.Damage);
                 }
             }
 

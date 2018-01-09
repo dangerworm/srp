@@ -259,11 +259,14 @@ namespace SrpTask.GameTests
         }
 
         [Test]
-        public void UseItem_StinkBomb_AllEnemiesNearThePlayerAreDamaged()
+        public void UseItem_ItemCausesDamage_AllEnemiesNearThePlayerAreDamaged()
         {
             // Arrange
             var enemy = new Mock<IEnemy>();
-            var item = ItemBuilder.Build.WithName("Stink Bomb").AnItem();
+            var item = ItemBuilder
+                .Build
+                .WithDamage(100)
+                .AnItem();
 
             Engine.Setup(x => x.GetEnemiesNear(Player))
                 .Returns(new List<IEnemy>
